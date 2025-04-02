@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomAdapter implements Adapter {
-
     @Override
     public List<Order> read(String filename) {
         List<Order> orders = new ArrayList<>();

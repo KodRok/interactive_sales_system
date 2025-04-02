@@ -18,6 +18,7 @@ public class Order {
         this.companyName = companyName;
         this.orderAmount = orderAmount;
     }
+
     public double getOrderAmount() {
         return orderAmount;
     }
