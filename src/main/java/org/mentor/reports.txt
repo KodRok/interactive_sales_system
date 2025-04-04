@@ -9,5 +9,5 @@ Electricity|31280.0
 Industrial|79200.0
 Carryover|281865.0
 Resident|56100.0
-Ancillary|315000.0
+Ancillary|300000.0
 Power Engineer|246000.0

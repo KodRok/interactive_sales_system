@@ -20,7 +20,7 @@ public class OrderService {
         List<OrderReport> orderReports = new ArrayList<>();
         int index = 0;
         for (Order order : orders) {
-            if (discount < 0) {
+            if (discount <= 0) {
                 discount = 0;
             } else {
                 discount = startDiscount - index * discountStep;
