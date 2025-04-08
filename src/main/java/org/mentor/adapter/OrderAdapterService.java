@@ -1,6 +1,10 @@
-package org.mentor.service.adapter;
+package org.mentor.adapter;
+
+import org.mentor.exception.CustomException;
 
 public class OrderAdapterService {
+    public static final String ERR_MSG = "Не поддерживаемый формат файла";
+
     public OrderAdapter getAdapter(String fileName) {
         String extension = getFileExtension(fileName);
         switch (extension) {
@@ -9,7 +13,7 @@ public class OrderAdapterService {
             case "txt":
                 return new OrderCustomAdapter();
             default:
-                throw new UnsupportedOperationException("Не поддерживаемый формат файла");
+                throw new CustomException(ERR_MSG);
         }
     }
 
@@ -24,8 +28,7 @@ public class OrderAdapterService {
     public String getSeparator(String fileName) {
         if (fileName.endsWith(".csv")) {
             return ";";
-        } else {
-            return "|";
         }
+        return "|";
     }
 }

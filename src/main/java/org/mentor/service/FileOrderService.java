@@ -1,5 +1,6 @@
 package org.mentor.service;
 
+import org.mentor.exception.CustomException;
 import org.mentor.model.OrderReport;
 
 import java.io.*;
@@ -7,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileOrderService {
+    public static final String ERR_READ_MSG = "Считать файл не удалось: ";
+    public static final String ERR_WRT_MSG = "Записать файл не удалось: ";
+
     public List<String> read(String inputFilename) {
         List<String> lines = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(inputFilename))) {
@@ -15,7 +19,7 @@ public class FileOrderService {
                 lines.add(line);
             }
         } catch (IOException e) {
-            System.err.println("Считать файл не удалось: " + e.getMessage());
+            throw  new CustomException(ERR_READ_MSG + e.getMessage());
         }
         return lines;
     }
@@ -27,7 +31,7 @@ public class FileOrderService {
                 writer.newLine();
             }
         } catch (IOException e) {
-            System.err.println("Записать файл не удалось: " + e.getMessage());
+            throw  new CustomException(ERR_WRT_MSG + e.getMessage());
         }
     }
 }

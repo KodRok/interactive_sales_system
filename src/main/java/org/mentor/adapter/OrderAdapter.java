@@ -1,4 +1,4 @@
-package org.mentor.service.adapter;
+package org.mentor.adapter;
 
 import org.mentor.model.Order;
 import java.util.List;
