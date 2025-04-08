@@ -1,6 +1,6 @@
 package org.mentor.service.adapter;
 
-public class AdapterService {
+public class OrderAdapterService {
     public OrderAdapter getAdapter(String fileName) {
         String extension = getFileExtension(fileName);
         switch (extension) {
@@ -20,6 +20,7 @@ public class AdapterService {
         }
         return fileName.substring(dotIndex + 1);
     }
+
     public String getSeparator(String fileName) {
         if (fileName.endsWith(".csv")) {
             return ";";

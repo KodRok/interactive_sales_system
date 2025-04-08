@@ -5,10 +5,9 @@ import org.mentor.model.OrderReport;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class FileOrderService {
-    public List<String> readFile(String inputFilename) {
+    public List<String> read(String inputFilename) {
         List<String> lines = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(inputFilename))) {
             String line;
@@ -21,10 +20,10 @@ public class FileOrderService {
         return lines;
     }
 
-    public void writeFile(String outputFilename, List<OrderReport> orderReports, String separator) {
+    public void write(String outputFilename, List<OrderReport> orderReports) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFilename))) {
             for (OrderReport orderReport: orderReports) {
-                writer.write(orderReport.getCompanyName() + separator + orderReport.getOrderAmount());
+                writer.write(orderReport.toString());
                 writer.newLine();
             }
         } catch (IOException e) {
