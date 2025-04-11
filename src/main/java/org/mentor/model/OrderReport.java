@@ -13,4 +13,13 @@ public class OrderReport {
     public String toString() {
         return companyName + " - " + orderAmount;
     }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public double getOrderAmount() {
+        return orderAmount;
+    }
+
 }
