@@ -12,20 +12,13 @@ public class OrderService {
 
     public List<OrderReport> calculateDiscount(List<Order> orders, double startDiscount,
                                                double discountStep, double pricePerKg) {
+        validate(startDiscount, discountStep, pricePerKg);
         Collections.sort(orders, Comparator.comparing(Order::getDateTime));
         if (orders.isEmpty()) {
             throw new IllegalArgumentException("Список заказов пуст");
         }
+
         List<OrderReport> orderReports = new ArrayList<>();
-        if (startDiscount < 0) {
-            throw new IllegalArgumentException("Скидка не может быть отрицательной");
-        }
-        if (discountStep < 0) {
-            throw new IllegalArgumentException("Шаг скидки не может быть отрицательным");
-        }
-        if (pricePerKg <= 0) {
-            throw new IllegalArgumentException("Цена не может быть отрицательной или нулевой");
-        }
         for (int i = 0; i < orders.size(); i++) {
             Order order = orders.get(i);
             double discount = Math.max(0, startDiscount - i * discountStep);
@@ -36,5 +29,17 @@ public class OrderService {
             orderReports.add(orderReport);
         }
         return orderReports;
+    }
+
+    private static void validate(double startDiscount, double discountStep, double pricePerKg) {
+        if (startDiscount < 0) {
+            throw new IllegalArgumentException("Скидка не может быть отрицательной");
+        }
+        if (discountStep < 0) {
+            throw new IllegalArgumentException("Шаг скидки не может быть отрицательным");
+        }
+        if (pricePerKg <= 0) {
+            throw new IllegalArgumentException("Цена не может быть отрицательной или нулевой");
+        }
     }
 }

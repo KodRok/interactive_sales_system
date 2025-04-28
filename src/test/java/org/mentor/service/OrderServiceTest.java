@@ -71,6 +71,22 @@ class OrderServiceTest {
         assertEquals(400, orderReports.get(3).getOrderAmount(), 0.01);
         assertEquals(500, orderReports.get(4).getOrderAmount(), 0.01);
     }
+    @Test
+    void calculateDiscountShouldThrowExceptionWhenNegativeDiscountStep() {
+        OrderService orderService = new OrderService();
+        List<Order> orders = new ArrayList<>();
+        orders.add(new Order(LocalDateTime.parse("2025-02-24T12:33:33"), "Company1", 10));
+        orders.add(new Order(LocalDateTime.parse("2025-02-25T12:33:32"), "Company2", 20));
+        orders.add(new Order(LocalDateTime.parse("2025-02-27T12:33:32"), "Company3", 30));
+        orders.add(new Order(LocalDateTime.parse("2025-03-28T12:33:32"), "Company4", 40));
+        orders.add(new Order(LocalDateTime.parse("2025-04-28T12:33:32"), "Company4", 50));
+        double startDiscount = 10;
+        double discountStep = - 0.2;
+        double pricePerKg = - 10;
+
+        assertThrows(IllegalArgumentException.class,
+                () -> orderService.calculateDiscount(orders, startDiscount, discountStep, pricePerKg));
+    }
 
     @Test
     void calculateDiscountShouldThrowExceptionWhenNegativeStartDiscount() {
