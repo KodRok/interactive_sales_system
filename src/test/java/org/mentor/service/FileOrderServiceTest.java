@@ -1,6 +1,5 @@
 package org.mentor.service;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -16,26 +15,23 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FileOrderServiceTest {
-    private FileOrderService fileOrderService;
+
+    private FileOrderService fileOrderService = new FileOrderService();
 
     @TempDir
     Path tempDir;
 
     @BeforeEach
-    void setUp() {
-        fileOrderService = new FileOrderService();
-    }
-
-    @AfterEach
-    void tearDown() {
+    void setUp() throws IOException {
+        tempDir = Files.createTempDirectory("tempDir");
     }
 
     @Test
     void readShouldReturnsLinesIfFileExists() throws IOException {
-        Path inputFile = tempDir.resolve("input.txt");
-        List<String> expectedLines = List.of("Line 1", "Line 2");
-        Files.write(inputFile, expectedLines);
-        List<String> actualLines = fileOrderService.read(inputFile.toString());
+        Path testFile = Path.of("src/test/resources/testFile.txt");
+        List<String> expectedLines = List.of("Line1", "Line2");
+        Files.write(testFile, expectedLines);
+        List<String> actualLines = fileOrderService.read(testFile.toString());
         assertEquals(expectedLines.size(), actualLines.size());
         assertIterableEquals(expectedLines, actualLines);
     }
@@ -48,18 +44,22 @@ class FileOrderServiceTest {
 
     @Test
     void writeShouldCreateAndWriteFile() throws IOException {
-        Path outputFile = tempDir.resolve("output.txt");
         List<OrderReport> orderReports = List.of(
                 new OrderReport("CompanyA", 111),
                 new OrderReport("CompanyB", 222)
         );
 
-        fileOrderService.write(outputFile.toString(), orderReports);
-        assertTrue(Files.exists(outputFile));
-        List<String> actualLines = Files.readAllLines(outputFile);
-        assertEquals(orderReports.size(), actualLines.size());
-        for (int i = 0; i < orderReports.size(); i++) {
-            assertEquals(orderReports.get(i).toString(), actualLines.get(i));
+        Path outputFile = tempDir.resolve("output.txt");
+        try {
+            fileOrderService.write(outputFile.toString(), orderReports);
+            assertTrue(Files.exists(outputFile));
+            List<String> actualLines = Files.readAllLines(outputFile);
+            assertEquals(orderReports.size(), actualLines.size());
+            for (int i = 0; i < orderReports.size(); i++) {
+                assertEquals(orderReports.get(i).toString(), actualLines.get(i));
+            }
+        } finally {
+            Files.delete(outputFile);
         }
     }
 
