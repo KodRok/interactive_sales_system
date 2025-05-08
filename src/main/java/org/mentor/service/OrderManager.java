@@ -1,9 +1,9 @@
 package org.mentor.service;
 
+import org.mentor.adapter.OrderAdapter;
+import org.mentor.adapter.OrderAdapterService;
 import org.mentor.model.Order;
 import org.mentor.model.OrderReport;
-import org.mentor.adapter.OrderAdapterService;
-import org.mentor.adapter.OrderAdapter;
 
 import java.util.List;
 
@@ -21,6 +21,9 @@ public class OrderManager {
 
     public void manageDiscountDay(String inputFileName, String outputFileName,
                                   double startDiscount, double discountStep, double pricePerKg) {
+        if (inputFileName == null || outputFileName == null) {
+            throw new IllegalArgumentException("FileName is null or empty");
+        }
         List<String> lines = fileOrderService.read(inputFileName);
         OrderAdapter adapter = orderAdapterService.getAdapter(inputFileName);
         List<Order> orders = adapter.parseToOrders(lines);
